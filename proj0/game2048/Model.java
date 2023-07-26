@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Wendan Zhao
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -137,7 +137,14 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        int size = b.size();
+        for (int col = 0; col < size; col += 1) {
+            for (int row = 0; row < size; row += 1) {
+                if (b.tile(col, row) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +154,14 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        int size = b.size();
+        for (int col = 0; col < size; col += 1) {
+            for (int row = 0; row < size; row += 1) {
+                if ((b.tile(col, row) != null) && (b.tile(col, row).value() == MAX_PIECE)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,8 +172,61 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if (emptySpaceExists(b) ||(hasAdjacentTilesWithSameValue(b))) {
+            return true;
+        }
         return false;
+    }
+
+    /** Returns true if there are at least two adjacent tiles with the same value on the board. */
+    public static boolean hasAdjacentTilesWithSameValue(Board b) {
+        int size = b.size();
+        for (int col = 0; col < size; col += 1) {
+            for (int row = 0; row < size; row += 1) {
+                if ((b.tile(col, row)!= null) && (sameValueWithAdjacentTile(b, col, row))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** Returns true if Tile at (Col, Row) has the same value with its adjacent tiles. */
+    public static boolean sameValueWithAdjacentTile(Board b, int col, int row) {
+        int value = b.tile(col, row).value();
+        for (int i = -1; i < 2; i += 1) {
+            int compareIndex = col + i;
+            if (i == 0) {
+                continue;
+            }
+            if (validateIndex(b, compareIndex)) {
+                if ((b.tile(compareIndex, row) != null) && (b.tile(compareIndex, row).value() == value)) {
+                    return true;
+                }
+            }
+        }
+        for (int i = -1; i < 2; i += 1) {
+            int compareIndex = row + i;
+            if (i == 0) {
+                continue;
+            }
+            if (validateIndex(b, compareIndex)) {
+                if ((b.tile(col, compareIndex) != null) && (b.tile(col, compareIndex).value() == value)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean validateIndex(Board b, int i) {
+        if (i < 0) {
+            return false;
+        }
+        if (i >= b.size()) {
+            return false;
+        }
+        return true;
     }
 
 
