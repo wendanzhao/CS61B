@@ -28,9 +28,7 @@ public class IntListExercises {
         while (p != null) {
             int currentMax = max(p);
             boolean firstEqualsLast = firstDigitEqualsLastDigit(currentMax);
-            if ((currentMax == p.first) && (firstEqualsLast)) {
-                p.first = 0;
-            } else if (p.first < 10) {
+            if (firstEqualsLast) {
                 p.first = 0;
             }
             p = p.rest;
