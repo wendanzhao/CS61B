@@ -93,7 +93,7 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         }
-        T item = sentinel.next.item;
+        T item = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
         size -= 1;
