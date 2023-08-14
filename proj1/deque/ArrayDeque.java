@@ -54,7 +54,7 @@ public class ArrayDeque<T> {
         }
         items[nextLast] = item;
         size = size + 1;
-        nextLast = moveToBack(nextLast) ;
+        nextLast = moveToBack(nextLast);
     }
 
     /** Returns true if deque is empty, false otherwise. */
@@ -74,7 +74,7 @@ public class ArrayDeque<T> {
      * Once all the items have been printed, print out a new line.
      */
     public void printDeque() {
-        int first = moveToBack(nextFirst) ;
+        int first = moveToBack(nextFirst);
         for (int i = 0; i < size; i++) {
             System.out.print(items[first] + " ");
             first = moveToBack(first);
@@ -122,7 +122,7 @@ public class ArrayDeque<T> {
         if (index >= size || index < 0) {
             return null;
         }
-        index = (moveToBack(nextFirst) +index) % items.length;
+        index = (moveToBack(nextFirst) + index) % items.length;
         return items[index];
     }
 
