@@ -17,10 +17,10 @@ public class ArrayDeque<T> {
     /** Resizes the underlying array to the target capacity. */
     public void resize(int capacity) {
         T[] newArray = (T[]) new Object[capacity];
-        int first = (nextFirst + 1) % items.length;
+        int first = moveToBack(nextFirst);
         for (int i = 0; i < size; i++) {
             newArray[i] = items[first];
-            first = (first + 1) % items.length;
+            first = moveToBack(first);
         }
         nextFirst = capacity - 1;
         nextLast = size;
