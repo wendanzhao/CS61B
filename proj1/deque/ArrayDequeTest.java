@@ -153,4 +153,65 @@ public class ArrayDequeTest {
         }
         printTimingTable(Ns, times, opCounts);
     }
+
+    @Test
+    public void iteratorTest() {
+        ArrayDeque<String> ad = new ArrayDeque<>();
+        ad.addLast("I");
+        ad.addLast("have");
+        ad.addLast("a");
+        ad.addLast("nice");
+        ad.addLast("day");
+        for (String x : ad ) {
+            System.out.println(x);
+        }
+    }
+
+    @Test
+    /** Test two Deques that have the same contents and the same order. */
+    public void equalTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        ad1.addLast(5);
+        ad1.addLast(23);
+        ad1.addLast(42);
+
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+        ad2.addLast(5);
+        ad2.addLast(23);
+        ad2.addLast(42);
+
+        boolean result = ad1.equals(ad2);
+        assertTrue("lld1 should be equal to lld2", result);
+    }
+
+    @Test
+    /** Test two Deque that have the same contents but different order. */
+    public void notEqualTest1() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        ad1.addLast(5);
+        ad1.addLast(23);
+        ad1.addLast(42);
+
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+        ad2.addLast(23);
+        ad2.addLast(42);
+        ad2.addLast(5);
+
+        assertNotEquals(ad1, ad2);
+    }
+
+    @Test
+    public void notEqualsTest2() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        ad1.addLast(5);
+        ad1.addLast(23);
+        ad1.addLast(42);
+
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+        ad2.addLast(5);
+        ad2.addLast(23);
+
+        assertNotEquals(ad1, ad2);
+    }
 }
+
