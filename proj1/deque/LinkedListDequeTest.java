@@ -5,6 +5,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import edu.princeton.cs.algs4.Stopwatch;
 
+import java.util.Optional;
+
 
 /** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
@@ -161,7 +163,7 @@ public class LinkedListDequeTest {
         LinkedListDeque<Integer> lld = new LinkedListDeque<>();
         ArrayDeque<Integer> ad = new ArrayDeque<>();
 
-        int N = 5000;
+        int N = 100000;
         for (int i = 0; i < N; i += 1) {
             int operationNumber = StdRandom.uniform(0, 3);
             if (operationNumber == 0) {
@@ -181,5 +183,79 @@ public class LinkedListDequeTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void iteratorTest() {
+        LinkedListDeque<String> lld = new LinkedListDeque<>();
+        lld.addLast("I");
+        lld.addLast("have");
+        lld.addLast("a");
+        lld.addLast("nice");
+        lld.addLast("day");
+        for (String x : lld ) {
+            System.out.println(x);
+        }
+    }
+
+    @Test
+    /** Test two Deque that have the same contents and the same order. */
+    public void equalTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addLast(5);
+        lld1.addLast(23);
+        lld1.addLast(42);
+
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        lld2.addLast(5);
+        lld2.addLast(23);
+        lld2.addLast(42);
+
+        boolean result = lld1.equals(lld2);
+        assertTrue("lld1 should be equal to lld2", result);
+    }
+
+    @Test
+    /** Test two Deques that have the same contents but different order. */
+    public void notEqualTest1() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addLast(5);
+        lld1.addLast(23);
+        lld1.addLast(42);
+
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        lld2.addLast(23);
+        lld2.addLast(42);
+        lld2.addLast(5);
+
+        assertNotEquals(lld1, lld2);
+    }
+
+    @Test
+    public void notEqualsTest2() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addLast(5);
+        lld1.addLast(23);
+        lld1.addLast(42);
+
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        lld2.addLast(5);
+        lld2.addLast(23);
+
+        assertNotEquals(lld1, lld2);
+    }
+
+    @Test
+    public void getTest() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addLast(5);
+        lld.addLast(23);
+        lld.addLast(42);
+        lld.addLast(62);
+        assertEquals(5, (double)lld.get(0), 0.0);
+        assertEquals(23, (double )lld.get(1), 0.0);
+        assertEquals(42, (double)lld.get(2), 0.0);
+        assertEquals(62, (double)lld.get(3), 0.0);
+        assertEquals(null, lld.get(4));
     }
 }
