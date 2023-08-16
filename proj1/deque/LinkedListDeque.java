@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
         public Node prev;
         public T item;
@@ -33,6 +35,7 @@ public class LinkedListDeque<T> {
     }
 
     /** Adds an item of type T to the front of the deque. You can assume that item is never null. */
+    @Override
     public void addFirst(T item) {
         size += 1;
         sentinel.next = new Node(item, sentinel, sentinel.next);
@@ -40,6 +43,7 @@ public class LinkedListDeque<T> {
     }
 
     /** Adds an item of type T to the back of the deque. You can assume that item is never null. */
+    @Override
     public void addLast(T item) {
         size += 1;
         Node toLast = new Node(item, sentinel.prev, sentinel);
@@ -47,15 +51,8 @@ public class LinkedListDeque<T> {
         sentinel.prev = toLast;
     }
 
-    /** Returns true if deque is empty, false otherwise. */
-    public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
-    }
-
     /** Returns the number of items in the deque.*/
+    @Override
     public int size() {
         return size;
     }
@@ -63,6 +60,7 @@ public class LinkedListDeque<T> {
     /** Prints the items in the deque from first to last, separated by a space.
      * Once all the items have been printed, print out a new line.
      */
+    @Override
     public void printDeque() {
         Node p = sentinel;
         while (p.next != sentinel) {
@@ -75,6 +73,7 @@ public class LinkedListDeque<T> {
     /** Removes and returns the item at the front of the deque.
      * If no such item exists, returns null.
      */
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -89,6 +88,7 @@ public class LinkedListDeque<T> {
     /** Removes and returns the item at the back of the deque.
      * If no such item exists, returns null.
      */
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -101,10 +101,14 @@ public class LinkedListDeque<T> {
     }
 
     /** Gets the item at the given index, where 0 is the front, 1 is the next item and so forth.
-     * if no such item exists, returns null. Must no alter the deque!
+     * if no such item exists, returns null. Must not alter the deque!
      */
+    @Override
     public T get(int index) {
         Node p = sentinel.next;
+        if (index >= size) {
+            return null;
+        }
         for (int i = 0; i < size; i++) {
             if (index == i) {
                 return p.item;
@@ -128,4 +132,53 @@ public class LinkedListDeque<T> {
         return getHelper(i + 1, index, p.next);
     }
 
+    /** The Deque objects we'll make are iterable(i.e. Iterable<T>. */
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private Node wizPos;
+        public  LinkedListDequeIterator() {
+            wizPos = sentinel.next;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return wizPos != sentinel;
+        }
+        public T next() {
+            T returnItem = wizPos.item;
+            wizPos = wizPos.next;
+            return returnItem;
+        }
+    }
+
+    /** Returns whether or not the parameter o is equal to the Deque.
+     * o is considered equal if it is a Deque and if it contains the same
+     * contents(as governed by the generic T's equals method)in the same order.
+     * You'll need to use the instance of keywords for this.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof LinkedListDeque otherDeque) {
+            if (this.size != otherDeque.size()) {
+                return false;
+            }
+            Node temp1 = this.sentinel.next;
+            Node temp2 = otherDeque.sentinel.next;
+            while (temp1 != sentinel) {
+                if (!temp1.item.equals(temp2.item)) {
+                    return false;
+                }
+                temp1 = temp1.next;
+                temp2 = temp2.next;
+            }
+            return true;
+        }
+        return false;
+    }
 }
